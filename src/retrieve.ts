@@ -1,10 +1,15 @@
 import { GraphQLClient, gql } from "graphql-request";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { parse } from "graphql";
-import { OpsLevelService, OpsLevelServiceData } from "./types";
+import { OpsLevelService } from "./types";
 
 const OPSLEVEL_API = "https://api.opslevel.com/graphql";
 const GITHUB_API = "https://api.github.com/graphql";
+
+export interface OpsLevelServiceData {
+  name: string;
+  gitHubRepositoryNames: string[];
+}
 
 const createGraphQLClient = (endpoint: string, token: string) => {
   const graphQLClient = new GraphQLClient(endpoint, {

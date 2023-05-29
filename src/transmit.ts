@@ -9,13 +9,15 @@ export const transmit = async (
 
   Promise.all(
     data.map(async (d) => {
-      fetch.default(endpoint, {
-        method: "POST",
-        body: JSON.stringify(d),
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+      console.info(`[POST] OpsLevel: ${JSON.stringify(d)}`);
+      if (!process.env.DRY_RUN)
+        fetch.default(endpoint, {
+          method: "POST",
+          body: JSON.stringify(d),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
     })
   );
 };
