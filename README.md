@@ -39,7 +39,7 @@ docker run \
 
 ## Development
 
-_Requires [bun](https://bun.sh) to be installed._
+_Requires [`bun`](https://bun.sh) to be installed._
 
 ```sh
 # Install dependencies
