@@ -13,5 +13,5 @@ export interface OpsLevelService {
 export interface OpsLevelServiceData {
   name: string;
   gitHubRepositoryNames: string[];
-  gitHubRepositories: unknown[];
+  gitHubRepositories?: unknown[];
 }

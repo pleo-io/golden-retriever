@@ -2,8 +2,10 @@ import {
   retrieveOpsLevelRepositories,
   retrieveGitHubRepositories,
 } from "./retrieve";
-import { transform } from "./transform";
 import { transmit } from "./transmit";
+import { config } from "dotenv";
+
+config();
 
 const OPSLEVEL_TOKEN = process.env.OPSLEVEL_TOKEN;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -31,8 +33,7 @@ const run = async () => {
     GITHUB_ORGANIZATION,
     opsLevelServices
   );
-  const transformed = transform(withGitHubRepositories);
-  transmit(OPSLEVEL_CUSTOM_EVENT_WEBHOOK, transformed);
+  transmit(OPSLEVEL_CUSTOM_EVENT_WEBHOOK, withGitHubRepositories);
 };
 
 run();

@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "npm start",
+      "name": "Start app",
+      "env": {
+        "NODE_OPTIONS": "--enable-source-maps"
+      },
+      "request": "launch",
+      "type": "node-terminal",
+      "preLaunchTask": "npm: build"
+    }
+  ]
+}
