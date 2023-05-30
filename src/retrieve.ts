@@ -85,6 +85,33 @@ const createServiceQuery = (cursor?: string) => {
   return query;
 };
 
+const createGitHubQuery = (r: string, owner: string) => {
+  const repoQuery: TypedDocumentNode<
+    GraphQLGitHubRepository,
+    never | Record<any, never>
+  > = parse(gql`
+    {
+        repository(followRenames: true, name: "${r}", owner: "${owner}") {
+            name
+            branchProtectionRules(first: 100) {
+                edges {
+                    node {
+                        requiredApprovingReviewCount
+                    }
+                }
+            }
+            defaultBranchRef {
+                name
+            }
+            pullRequests(first: 100, states: OPEN, labels: "dependencies") {
+                totalCount
+            }
+        } 
+    }
+  `);
+  return repoQuery;
+};
+
 export const retrieveOpsLevelRepositories = async (
   OPSLEVEL_TOKEN: string
 ): Promise<OpsLevelServiceData[]> => {
@@ -123,42 +150,18 @@ export const retrieveGitHubRepositories = async (
   const queries = services.flatMap((s) => {
     return {
       name: s.name,
-      queries: s.gitHubRepositoryNames.map((r) => {
-        const repoQuery: TypedDocumentNode<
-          GraphQLGitHubRepository,
-          never | Record<any, never>
-        > = parse(gql`
-    {
-        repository(followRenames: true, name: "${r}", owner: "${owner}") {
-            name
-            branchProtectionRules(first: 100) {
-                edges {
-                    node {
-                        requiredApprovingReviewCount
-                    }
-                }
-            }
-            defaultBranchRef {
-                name
-            }
-            pullRequests(first: 100, states: OPEN, labels: "dependencies") {
-                totalCount
-            }
-        } 
-    }
-  `);
-        return repoQuery;
-      }),
+      queries: s.gitHubRepositoryNames.map((r) => createGitHubQuery(r, owner)),
     };
   });
+
   const client = createGraphQLClient(GITHUB_API, GITHUB_TOKEN);
-  const data: OpsLevelService[] = await Promise.all(
-    queries.map(async (queries) => {
+  const gitHubData = await Promise.all(
+    queries.map(async (serviceData) => {
       const fetched = await Promise.all(
-        queries.queries.map(async (q) => await client.request({ document: q }))
+        serviceData.queries.map((q) => client.request({ document: q }))
       );
-      const result: OpsLevelService = {
-        name: queries.name,
+      return {
+        name: serviceData.name,
         gitHubRepositories: fetched.map((r) => {
           return {
             name: r.repository.name,
@@ -170,9 +173,8 @@ export const retrieveGitHubRepositories = async (
           };
         }),
       };
-      return result;
     })
   );
 
-  return data;
+  return gitHubData;
 };
