@@ -3,7 +3,7 @@
 </h1>
 <h1 align="center">Golden Retriever</h1>
 
-<p align="center">An application for retrieving related data for OpsLevel services and transmitting it back to OpsLevel for use in OpsLevel Checks. </p>
+<p align="center">An application for retrieving related data for OpsLevel services and transmitting it back to OpsLevel for use in OpsLevel Checks.</p>
 
 ---
 

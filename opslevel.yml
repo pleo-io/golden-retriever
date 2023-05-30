@@ -1,0 +1,16 @@
+---
+version: 1
+service:
+  name: Golden Retriever
+  lifecycle: generally_available
+  owner: devexp
+  language: TypeScript
+  description: |-
+    An application for retrieving related data for OpsLevel services and transmitting it back to OpsLevel for use in OpsLevel Checks.
+  aliases:
+    - golden_retriever
+  tags:
+    - key: type
+      value: service
+    - key: open-source
+      value: true
