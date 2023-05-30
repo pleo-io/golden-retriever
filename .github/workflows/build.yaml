@@ -1,0 +1,31 @@
+name: Build
+
+on: push
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docker:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Docker context
+        run: |
+          docker context create builders
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          endpoint: builders
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: false
