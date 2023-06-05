@@ -1,7 +1,7 @@
 {
   "name": "golden-retriever",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An application for retrieving related data for OpsLevel services and transmitting it back to OpsLevel.",
   "main": "index.js",
   "scripts": {
