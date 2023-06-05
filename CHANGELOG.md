@@ -1,3 +1,16 @@
+# v1.0.2 (Mon Jun 05 2023)
+
+#### 🐞 Fixes
+
+- Avoid the use of the incompatible 'node-fetch' library [#2](https://github.com/pleo-io/golden-retriever/pull/2) ([@andersfischernielsen](https://github.com/andersfischernielsen) [@LittleGreenYoda42](https://github.com/LittleGreenYoda42))
+
+#### Authors: 2
+
+- Anders Fischer-Nielsen ([@andersfischernielsen](https://github.com/andersfischernielsen))
+- Martin Elias ([@LittleGreenYoda42](https://github.com/LittleGreenYoda42))
+
+---
+
 # v1.0.1 (Tue May 30 2023)
 
 #### 🐞 Fixes
