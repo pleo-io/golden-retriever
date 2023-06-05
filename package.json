@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest src/",
     "build": "tsc",
-    "start": "node ./dist/main.js"
+    "debug": "node ./dist/main.js"
   },
   "author": "",
   "license": "ISC",
