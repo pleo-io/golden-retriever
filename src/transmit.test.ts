@@ -1,38 +1,31 @@
 import { OpsLevelService } from "./types";
 import { transmit } from "./transmit";
-import { expect, test, jest, describe, beforeEach, afterEach } from "@jest/globals";
+import { expect, test, describe, beforeEach } from "@jest/globals";
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
 
+const endpoint = "OPSLEVEL_ENDPOINT";
+const data: OpsLevelService[] = [
+  {
+    name: "test",
+    gitHubRepositories: [
+      { defaultBranchName: "main", name: "test", prApprovalsNeeded: 1 },
+    ],
+  },
+];
+
+const mock = new MockAdapter(axios);
+mock.onPost().reply(200);
 
 describe("Data transmission to OpsLevel", () => {
-  const endpoint = "OPSLEVEL_ENDPOINT";
-  const data: OpsLevelService[] = [
-    {
-      name: "test",
-      gitHubRepositories: [
-        { defaultBranchName: "main", name: "test", prApprovalsNeeded: 1 },
-      ],
-    },
-  ];
-  let axiosMock: jest.Mock
-
-  beforeEach(function () {
-    axiosMock = jest.fn().mockReturnValue(jest.fn());
-    jest.mock("axios", () => {
-      return {
-        __esModule: true,
-        post: axiosMock,
-      };
-    });
-  })
-
-  afterEach(() => {
-    jest.clearAllMocks()
-})
+  beforeEach(() => {
+    mock.resetHistory();
+  });
 
   test("Can transmit data to OpsLevel", async () => {
     await transmit(endpoint, data);
 
-    expect(axiosMock).toHaveBeenCalledTimes(1);
+    expect(mock.history["post"].length).toEqual(1);
   });
 
   test("Can dry-run data transmission to OpsLevel", async () => {
@@ -40,6 +33,6 @@ describe("Data transmission to OpsLevel", () => {
 
     await transmit(endpoint, data);
 
-    expect(axiosMock).toHaveBeenCalledTimes(0);
+    expect(mock.history["post"].length).toEqual(0);
   });
 });
