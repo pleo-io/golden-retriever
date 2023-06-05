@@ -7,7 +7,7 @@ export const transmit = async (
 ): Promise<void> => {
   const endpoint = `https://app.opslevel.com/integrations/custom_event/${CUSTOM_EVENT_WEBHOOK}`;
 
-  Promise.all(
+  await Promise.all(
     data.map(async (d) => {
       console.info(`[POST] OpsLevel: ${JSON.stringify(d)}`);
       if (!process.env.DRY_RUN)
