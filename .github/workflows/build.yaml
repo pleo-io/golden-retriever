@@ -7,6 +7,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Bun install
+        run: |
+          bun install
+
+      - name: Bun install
+        run: |
+          bun run test
+
   docker:
     name: Build Docker image
     runs-on: ubuntu-latest
