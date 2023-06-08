@@ -3,7 +3,7 @@ version: 1
 service:
   name: Golden Retriever
   lifecycle: generally_available
-  owner: devexp
+  owner: devx
   language: TypeScript
   description: |-
     An application for retrieving related data for OpsLevel services and transmitting it back to OpsLevel for use in OpsLevel Checks.
@@ -13,4 +13,4 @@ service:
     - key: type
       value: service
     - key: open-source
-      value: true
+      value: "true"
